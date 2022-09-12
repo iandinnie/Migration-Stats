@@ -1,0 +1,35 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(tidycensus)) install.packages('tidycensus')
+if (!require(survey)) install.packages('survey')
+if (!require(srvyr)) install.packages('srvyr')
+if (!require(renv)) install.packages('renv')
+
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(tidycensus)
+  library(srvyr)
+  library(survey)
+  library(renv)
+  })
+```
+
+```{r eval = F}
+renv::init()
+renv::snapshot()
+```
+
+```{r}
+pums_data <- get_pums(
+  variables = c("MIGPUMA", "PUMA", "MIGSP", "ST", "PWGTP", "MIG"),
+  state = "all",
+  year = 2020,
+  survey = "acs5",
+  rep_weights = "both",
+  key = Sys.getenv("CENSUS_API_KEY")
+)
+```
